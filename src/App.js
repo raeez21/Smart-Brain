@@ -133,6 +133,7 @@ class App extends Component {
     if(route==="signout")
     {
       this.setState({isSignedIn:false})
+      this.setState({imageUrl:''})
     }
     else if(route==="home"){
       this.setState({isSignedIn:true})

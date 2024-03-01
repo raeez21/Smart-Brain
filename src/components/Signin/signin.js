@@ -25,13 +25,24 @@ class Signin extends React.Component{
                     password: this.state.signInPass
                 })
             })
-            .then(resp=>resp.json())
+            .then(resp=> {
+                if (resp.ok) {
+                    return resp.json();
+                } 
+                else if (resp.status === 400) {
+                    throw new Error('Failed to sign in: Invalid email or password');
+                }
+            })
             .then(user=>{
                 if(user.id){
                     this.props.loadUser(user)
                     this.props.onRouteChange('home')  
                 }
+                else{
+                    throw Error
+                }
             })
+            .catch(err=>console.log("Couldn't sign in"))
             
         }
         render(){
