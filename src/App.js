@@ -10,41 +10,54 @@ import FaceRecognition from './components/FaceRecognition/FaceRecognition'
 import ParticlesBg from 'particles-bg'
 import { Component } from 'react';
 
-const PAT = 'ddda648bf01c442496087f233d2489ef';
-const USER_ID = 'clarifai';
-const APP_ID = 'main';
-const MODEL_ID = 'face-detection';
-const MODEL_VERSION_ID = '6dc7e46bc9124c5c8824be4822abe105';
+// const PAT = 'ddda648bf01c442496087f233d2489ef';
+// const USER_ID = 'clarifai';
+// const APP_ID = 'main';
+// const MODEL_ID = 'face-detection';
+// const MODEL_VERSION_ID = '6dc7e46bc9124c5c8824be4822abe105';
 
-const getRequestOptions = (imageUrl)=>{
-  console.log("here url:"+imageUrl)
-  const raw = JSON.stringify({
-    "user_app_id": {
-        "user_id": USER_ID,
-        "app_id": APP_ID
-    },
-    "inputs": [
-        {
-            "data": {
-                "image": {
-                    "url": imageUrl
-                    // "base64": IMAGE_BYTES_STRING
-                }
-            }
-        }
-    ]
-  });
-  const requestOptions = {
-    method: 'POST',
-    headers: {
-        'Accept': 'application/json',
-        'Authorization': 'Key ' + PAT
-    },
-    body: raw
-  };
-  return requestOptions
-} 
-
+// const getRequestOptions = (imageUrl)=>{
+//   console.log("here url:"+imageUrl)
+//   const raw = JSON.stringify({
+//     "user_app_id": {
+//         "user_id": USER_ID,
+//         "app_id": APP_ID
+//     },
+//     "inputs": [
+//         {
+//             "data": {
+//                 "image": {
+//                     "url": imageUrl
+//                     // "base64": IMAGE_BYTES_STRING
+//                 }
+//             }
+//         }
+//     ]
+//   });
+//   const requestOptions = {
+//     method: 'POST',
+//     headers: {
+//         'Accept': 'application/json',
+//         'Authorization': 'Key ' + PAT
+//     },
+//     body: raw
+//   };
+//   return requestOptions
+// } 
+const initialState = {
+  input: '',
+  imageUrl: '',
+  box: {},
+  route: 'signin',
+  isSignedIn: false,
+  user:{
+    id:'',
+    name:'',
+    email:'',
+    entries: 0,
+    joined: ''
+  }
+}
 class App extends Component {
   constructor() {
     super();
@@ -98,13 +111,15 @@ class App extends Component {
     this.setState({input:event.target.value})
   }
   onPicSubmit = () =>{
-    console.log("onPicSubmit")
-    console.log("input IS"+this.state.input)
+    
     this.setState({imageUrl:this.state.input})
-    console.log("URLS IS"+this.state.imageUrl)
-    let requestOptions = getRequestOptions(this.state.input)
-    console.log("req OPt"+requestOptions)
-    fetch("https://api.clarifai.com/v2/models/" + MODEL_ID + "/versions/" + MODEL_VERSION_ID + "/outputs", requestOptions)
+    fetch('http://localhost:3000/imageurl',{
+          method:'post',
+          headers:{'Content-Type': 'application/json'},
+          body:JSON.stringify({
+              input:this.state.input
+              })
+          })
           .then(response => response.json())
           .then(result=>{
                 if(result){
@@ -122,6 +137,7 @@ class App extends Component {
                                 this.setState(Object.assign(this.state.user,{entries:count}))
                                 }
                         )
+                  .catch(console.log)
                 }
                 this.displayFaceBox(this.calculateFaceLocation(result))})
           .catch(err=>console.log("Error: "+err))
@@ -132,8 +148,9 @@ class App extends Component {
     console.log("onRouteChange")
     if(route==="signout")
     {
-      this.setState({isSignedIn:false})
-      this.setState({imageUrl:''})
+      // this.setState({isSignedIn:false})
+      // this.setState({imageUrl:''})
+      this.setState(initialState)
     }
     else if(route==="home"){
       this.setState({isSignedIn:true})
