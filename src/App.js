@@ -10,40 +10,7 @@ import FaceRecognition from './components/FaceRecognition/FaceRecognition'
 import ParticlesBg from 'particles-bg'
 import { Component } from 'react';
 
-// const PAT = 'ddda648bf01c442496087f233d2489ef';
-// const USER_ID = 'clarifai';
-// const APP_ID = 'main';
-// const MODEL_ID = 'face-detection';
-// const MODEL_VERSION_ID = '6dc7e46bc9124c5c8824be4822abe105';
 
-// const getRequestOptions = (imageUrl)=>{
-//   console.log("here url:"+imageUrl)
-//   const raw = JSON.stringify({
-//     "user_app_id": {
-//         "user_id": USER_ID,
-//         "app_id": APP_ID
-//     },
-//     "inputs": [
-//         {
-//             "data": {
-//                 "image": {
-//                     "url": imageUrl
-//                     // "base64": IMAGE_BYTES_STRING
-//                 }
-//             }
-//         }
-//     ]
-//   });
-//   const requestOptions = {
-//     method: 'POST',
-//     headers: {
-//         'Accept': 'application/json',
-//         'Authorization': 'Key ' + PAT
-//     },
-//     body: raw
-//   };
-//   return requestOptions
-// } 
 const initialState = {
   input: '',
   imageUrl: '',
