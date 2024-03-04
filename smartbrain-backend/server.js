@@ -31,9 +31,7 @@ app.get('/',(req,resp)=>{
 app.post('/signin', (req, resp)=>{
     handleSignIn(req, resp, db, bcrypt)
 })
-app.listen(3000,()=>{
-    console.log("APP IS RUNNING ON PORT 3000")
-})
+
 
 app.post('/register', (req,resp) => {
     handleRegister(req,resp,db,bcrypt)
@@ -49,6 +47,10 @@ app.put('/image',(req,resp)=>{
 })
 app.post('/imageurl',(req,resp)=>{
     handleApiCall(req,resp)
+})
+const PORT = process.env.PORT || 3000 
+app.listen(PORT,()=>{
+    console.log(`APP IS RUNNING ON PORT:`,PORT)
 })
 /*
 DIFFErent APIS we may need:
