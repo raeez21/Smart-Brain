@@ -108,14 +108,14 @@ class App extends Component {
                 }
                 this.displayFaceBox(this.calculateFaceLocation(result))})
           .catch(err=>console.log("Error: "+err))
-          // .then(result => {console.log(result.outputs[0].data.regions[0].region_info.bounding_box)})
+          
 
   }
   onRouteChange = (route)=>{
     console.log("onRouteChange")
     if(route==="signout")
     {
-      // this.setState({isSignedIn:false})
+      
       // this.setState({imageUrl:''})
       this.setState(initialState)
     }
